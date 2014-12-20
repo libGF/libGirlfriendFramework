@@ -8,7 +8,7 @@ class QCLTests(unittest.TestCase):
         self.qcl = QCL.QCL()
 
     def getGirlName(self):
-        girl = self.getGirlFriend()
+        girl = self.qcl.getGirlFriend()
         print girl.name
 
     def testGirl(self):
