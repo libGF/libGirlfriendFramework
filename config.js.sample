@@ -1,0 +1,7 @@
+module.exports = {
+	"verifyToken": "qcl_wants_a_girlfriend",
+	"accessToken": "put fb access token here",
+	"keyPath": "path to key.pem",
+	"certPath": "path to cert.pem",
+	"masterId": "master's fb user id"
+};
