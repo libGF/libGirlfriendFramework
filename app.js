@@ -41,14 +41,14 @@ app.post('/webhook/', function (req, res) {
             sender = event.sender.id;
             console.log(event);
             if (event.message && event.message.text) {
-      text = event.message.text;
-      // Handle a text message from this sender
-      console.log('message received');
-      console.log(text);
-      sendTextMessage(sender, "嗯嗯");
-      sendTextMessage(sender, "呵呵");
-      sendTextMessage(sender, "洗澡掰");
-      sendTextMessage(sender, "現在時間：" + new Date());
+                text = event.message.text;
+                // Handle a text message from this sender
+                console.log('message received');
+                console.log(text);
+                sendTextMessage(sender, "嗯嗯");
+                sendTextMessage(sender, "呵呵");
+                sendTextMessage(sender, "洗澡掰");
+                sendTextMessage(sender, "現在時間：" + new Date());
             }
         }
 
@@ -62,12 +62,12 @@ function sendTextMessage(sender, text) {
     }
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:libGFConfig.accessToken},
-    method: 'POST',
-    json: {
-        recipient: {id:sender},
-      message: messageData,
-    }
+        qs: {access_token:libGFConfig.accessToken},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
     }, function(error, response, body) {
         if (error) {
             console.log('Error sending message: ', error);
