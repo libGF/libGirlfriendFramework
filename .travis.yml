@@ -8,7 +8,7 @@ before_install:
   - tar xvf deploy.tar
   - chmod u+x deploy.sh
 
-before_script:
+before_deploy:
   - echo -e "Host girlfriend.wtf\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 deploy:
