@@ -50,10 +50,12 @@ app.post('/webhook/', function (req, res) {
                 yd.queryDictionary(text, function(error, result){
                     if (error) {
                         sendTextMessage(sender, "妹子知道，但妹子不說。");
-                    } else {
+                    } else if (result.e && result.e.length > 0){
                         for (var i = 0 ;i < result.e.length; i++) {
-                            sendTextMessage(sender, e[i]);
+                            sendTextMessage(sender, result.e[i]);
                         } 
+                    } else {
+                        sendTextMessage(sender, "妹子知道，但妹子不說。");
                     } 
                 });
                 //sendTextMessage(sender, "呵\n呵");
