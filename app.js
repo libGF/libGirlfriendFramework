@@ -7,6 +7,7 @@ var https = require('https');
 var http = require('http');
 var fs = require('fs');
 
+var yd = require('./yd');
 var libGFConfig = require("./config");
 
 // Add middleware
@@ -46,9 +47,18 @@ app.post('/webhook/', function (req, res) {
                 console.log('message received');
                 console.log(text);
                 sendTextMessage(sender, "嗯嗯");
-                sendTextMessage(sender, "呵\n呵");
-                sendTextMessage(sender, "洗澡掰");
-                sendTextMessage(sender, "現在時間：" + new Date());
+                yd.queryDictionary(text, function(error, result){
+                    if (error) {
+                        sendTextMessage(sender, "妹子知道，但妹子不說。");
+                    } else {
+                        for (var i = 0 ;i < result.e.length; i++) {
+                            sendTextMessage(sender, e[i]);
+                        } 
+                    } 
+                });
+                //sendTextMessage(sender, "呵\n呵");
+                //sendTextMessage(sender, "洗澡掰");
+                //sendTextMessage(sender, "現在時間：" + new Date());
             }
         }
 
