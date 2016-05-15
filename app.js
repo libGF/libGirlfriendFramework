@@ -46,7 +46,7 @@ app.post('/webhook/', function (req, res) {
                 console.log('message received');
                 console.log(text);
                 sendTextMessage(sender, "嗯嗯");
-                sendTextMessage(sender, "呵呵");
+                sendTextMessage(sender, "呵\n呵");
                 sendTextMessage(sender, "洗澡掰");
                 sendTextMessage(sender, "現在時間：" + new Date());
             }
