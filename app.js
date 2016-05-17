@@ -47,17 +47,21 @@ app.post('/webhook/', function (req, res) {
                 console.log('message received');
                 console.log(text);
                 sendTextMessage(sender, "嗯嗯");
-                yd.queryDictionary(text, function(error, result){
-                    if (error) {
-                        sendTextMessage(sender, "妹子知道，但妹子不說。");
-                    } else if (result.e && result.e.length > 0){
-                        for (var i = 0 ;i < result.e.length; i++) {
-                            sendTextMessage(sender, result.e[i]);
+                if (text == "--help") {
+                    sendGenericMessage(sender); 
+                } else {
+                    yd.queryDictionary(text, function(error, result){
+                        if (error) {
+                            sendTextMessage(sender, "妹子知道，但妹子不說。");
+                        } else if (result.e && result.e.length > 0){
+                            for (var i = 0 ;i < result.e.length; i++) {
+                                sendTextMessage(sender, result.e[i]);
+                            } 
+                        } else {
+                            sendTextMessage(sender, "妹子知道，但妹子不說。");
                         } 
-                    } else {
-                        sendTextMessage(sender, "妹子知道，但妹子不說。");
-                    } 
-                });
+                    });
+                }
                 //sendTextMessage(sender, "呵\n呵");
                 //sendTextMessage(sender, "洗澡掰");
                 //sendTextMessage(sender, "現在時間：" + new Date());
@@ -88,6 +92,56 @@ function sendTextMessage(sender, text) {
         }
     });
 }
+
+function sendGenericMessage(sender) {
+    messageData = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+                    "title": "First card",
+                    "subtitle": "Element #1 of an hscroll",
+                    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+                    "buttons": [{
+                        "type": "web_url",
+                        "url": "https://www.messenger.com/",
+                        "title": "Web url"
+                    }, {
+                        "type": "postback",
+                        "title": "Postback",
+                        "payload": "Payload for first element in a generic bubble",
+                    }],
+                },{
+                    "title": "Second card",
+                    "subtitle": "Element #2 of an hscroll",
+                    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+                    "buttons": [{
+                        "type": "postback",
+                        "title": "Postback",
+                        "payload": "Payload for second element in a generic bubble",
+                    }],
+                }]
+            }
+        }
+    };
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:libGFConfig.accessToken},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+        message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    });
+}
+
 
 var options = {
     key: fs.readFileSync(libGFConfig.keyPath),
