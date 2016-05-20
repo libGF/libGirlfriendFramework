@@ -9,13 +9,17 @@ var queryWord = "girlfriend";
 //var queryWord = "女朋友";
 //var queryWord = "work";
 
+String.prototype.escapeSQL = function() {
+	return this.replace(/'/g, "\\\'");
+}
+
 var queryDictionary = function(word, callback) {
-    var encodedQueryWord = encodeURIComponent(word);
-    //console.log("q:"+word);
-    //console.log("->"+encodedQueryWord);
-    
-    var queryURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D'https%3A%2F%2Ftw.dictionary.yahoo.com%2Fdictionary%3Fp%3D" + encodedQueryWord + "'%20and%20xpath%3D'%2F%2Fspan%5B%40id%3D%5C'term%5C'%5D%20%7C%20%2F%2Fdiv%5Bcontains(%40class%2C%20%5C'explain%5C')%5D'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-    //console.log(queryURL);
+    var yahooDicURL = "https://tw.dictionary.yahoo.com/dictionary?p=" + encodeURIComponent(word);
+
+    var xpath = "//span[@id='term'] | //div[contains(@class, 'explain')]";
+    var q = "select * from html where url='" + yahooDicURL.escapeSQL() + "' and xpath='" + xpath.escapeSQL() + "'";
+
+    var queryURL = "https://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(q) + "&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
     var defaultResult = {
         "q": word
     };
