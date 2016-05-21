@@ -58,7 +58,7 @@ app.post('/webhook/', function (req, res) {
                                 sendTextMessage(sender, result.e[i]);
                             } 
                         } else {
-                            sendTextMessage(sender, "妹子知道，但妹子不說。");
+                            sendTextMessage(sender, "妹子知道，但妹子不說>///<");
                         } 
                     });
                 }
