@@ -18,9 +18,6 @@ app.use(bodyParser.json());
 app.get('/', function(req, res){
     // just let me know server is working
     res.send('libGirlfriendFramework is work. ^_^');
-    console.log('yo /');
-    // test send message directly
-    sendTextMessage(libGFConfig.masterId, "首頁被戳了喔:p");
 });
 
 // GET webhook for fb
