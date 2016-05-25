@@ -20,6 +20,25 @@ app.get('/', function(req, res){
     res.send('libGirlfriendFramework is work. ^_^');
 });
 
+// GET line callback
+app.post('/linecallback', function(req, res){
+    console.log("line callback POST");
+    var results = req.body.result;
+    var signature = req.headers["x-line-channelsignature"];
+    if (results && signature) {
+        for (var i = 0 ; i < results.length; i++) {
+            var result = results[i];
+            console.log(result);
+            if (result.eventType == "138311609000106303") {
+                // message
+                
+            } else if (result.eventType == "138311609100106403"){
+                // add friend
+            }
+        }
+    }
+});
+
 // GET webhook for fb
 app.get('/webhook/', function(req, res){
     console.log('/webhook/ did get');
@@ -68,6 +87,15 @@ app.post('/webhook/', function (req, res) {
     }
     res.sendStatus(200);
 });
+
+// TODO
+function sendLineTextMessage(sender, text) {
+    request({
+        url: "http://trialbot-api.line.me/"
+    }, function(error, response, body) {
+        
+    });
+}
 
 function sendTextMessage(sender, text) {
     messageData = {
